@@ -4,3 +4,12 @@ local function HelloWorld()
 end
 
 HelloWorld();
+
+function LibAffectedUnits_OnEvent ()
+  print("PLAYER_ENTERING_WORLD");
+end
+
+local eventFrame = CreateFrame("Frame");
+eventFrame:SetScript("OnEvent", LibAffectedUnits_OnEvent);
+
+eventFrame:RegisterEvent("PLAYER_ENTERING_WORLD");
