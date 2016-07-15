@@ -1,0 +1,4 @@
+## Interface: 70000
+## Title: LibAffectedUnits
+## Notes: a helper to count units affected by player actions
+LibAffectedUnits.lua
