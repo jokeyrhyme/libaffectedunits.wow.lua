@@ -37,6 +37,17 @@ Armed with these aggregates, addons should be able to infer, primarily,
 the number of friendly or hostile units the player is currently engaged with.
 
 
+## Community
+
+Hopefully, there'll be discussions about this work in the following places:
+
+- https://github.com/jokeyrhyme/libaffectedunits.wow.lua/issues
+
+- http://forums.wowace.com/showthread.php?p=345011
+
+- http://www.wowace.com/addons/weakauras-2/forum/127461-lib-affected-units-count-currently-engaged-friends/
+
+
 ## Resources
 
 - http://wowwiki.wikia.com/wiki/AddOn_programming_tutorial/Introduction
