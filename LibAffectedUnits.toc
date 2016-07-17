@@ -1,5 +1,8 @@
 ## Interface: 70000
 ## Title: LibAffectedUnits
 ## Notes: a helper to count units affected by player actions
+
+embeds.xml
+
 LibAffectedUnits.lua
 LibAffectedUnits.xml
