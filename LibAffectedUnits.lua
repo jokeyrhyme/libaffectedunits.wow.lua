@@ -1,5 +1,6 @@
 
-local lib = LibStub("AceAddon-3.0"):NewAddon("LibAffectedUnits", "AceTimer-3.0")
+local LibAffectedUnits_Timers = setmetatable({}, {__tostring=function() return "LibAffectedUnits" end})
+LibStub("AceTimer-3.0"):Embed(LibAffectedUnits_Timers)
 
 -- Rudimentary and use-case-specific ring buffer...
 
@@ -149,7 +150,23 @@ end
 
 local eventFrame;
 
-function lib:OnInitialize()
+function LibAffectedUnits_OnEnable ()
+  LibAffectedUnits_Timers:ScheduleRepeatingTimer("TimerFeedback", 1)
+  bumpRingsIfNecessary(time());
+
+  eventFrame = CreateFrame("FRAME", "LibAffectedUnits_Frame");
+  eventFrame:Hide();
+  eventFrame:RegisterEvent("COMBAT_LOG_EVENT_UNFILTERED");
+  eventFrame:SetScript("OnEvent", LibAffectedUnits_OnEvent);
+end
+
+function LibAffectedUnits_OnDisable ()
+  eventFrame:UnregisterAllEvents();
+  eventFrame:SetParent(nil);
+  LibAffectedUnits_Timers:CancelAllTimers();
+end
+
+function LibAffectedUnits_OnLoad ()
   playerGUID = UnitGUID("player");
 
   -- generating our set of monitored event types
@@ -165,25 +182,11 @@ function lib:OnInitialize()
       tinsert(usefulEventTypes, prefix .. suffix)
     end
   end
+
+  LibAffectedUnits_OnEnable();
 end
 
-function lib:OnEnable()
-  lib:ScheduleRepeatingTimer("TimerFeedback", 1)
-  bumpRingsIfNecessary(time());
-
-  eventFrame = CreateFrame("FRAME", "LibAffectedUnits_Frame");
-  eventFrame:Hide();
-  eventFrame:RegisterEvent("COMBAT_LOG_EVENT_UNFILTERED");
-  eventFrame:SetScript("OnEvent", LibAffectedUnits_OnEvent);
-end
-
-function lib:OnDisable()
-  eventFrame:UnregisterAllEvents();
-  eventFrame:SetParent(nil);
-  lib:CancelAllTimers();
-end
-
-function lib:TimerFeedback()
+function LibAffectedUnits_Timers:TimerFeedback()
   local now = time();
   bumpRingsIfNecessary(now);
   bumpAggregates();
